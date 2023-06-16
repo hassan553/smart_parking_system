@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "106688598466",
+    "project_id": "rakna-3da8c",
+    "storage_bucket": "rakna-3da8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106688598466:android:b3d3001b20eea369dd065b",
+        "android_client_info": {
+          "package_name": "com.example.spark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106688598466-c0u4dh9rq1es9unigbttkgsvc3e4jpp0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD94MPwaBV_28bPjM8re2p96q4Dz8jh7Sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106688598466-c0u4dh9rq1es9unigbttkgsvc3e4jpp0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
