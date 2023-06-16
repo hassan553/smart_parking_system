@@ -2,11 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:spark/core/constants/firebase_constants.dart';
 
 import '../../../../core/constants/api.dart';
 import '../../../auth/data/model/user_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 
 class HomeRepo {
   Future<Either<String, UserModel>> getUserProfile(String token) async {
@@ -47,10 +52,9 @@ class HomeRepo {
 
     http.put(
       updateProfileUrl,
-      body:  json.encode(
+      body: json.encode(
         {
           "image": base64Image,
-         
         },
       ),
       headers: {
@@ -63,5 +67,50 @@ class HomeRepo {
     }).catchError((err) {
       print(err);
     });
+  }
+
+  
+}
+
+class ImageUploading {
+  Future<void> uploadImageToFirebase(File imageFile) async {
+    try {
+      String fileName = path.basename(imageFile.path);
+      firebase_storage.Reference firebaseStorageRef =
+          firebase_storage.FirebaseStorage.instance.ref().child(fileName);
+      await firebaseStorageRef.putFile(imageFile);
+      String imageUrl = await firebaseStorageRef.getDownloadURL();
+      print('Image URL: $imageUrl');
+      updateUserImage(imageUrl);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
+  Future<void> getImageAndUpload(BuildContext context, bool isCamera) async {
+    final picker = ImagePicker();
+    var pickedFile;
+    if (isCamera) {
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    } else {
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    }
+
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      await uploadImageToFirebase(imageFile);
+    } else {}
+  }
+
+  Future updateUserImage(String imageUrl) async {
+    try {
+      firebaseFirestore
+          .collection('users')
+          .doc(user!.uid)
+          .update({'image': imageUrl});
+    } catch (error) {
+      print(error);
+    }
   }
 }

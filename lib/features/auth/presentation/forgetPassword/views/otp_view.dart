@@ -81,7 +81,7 @@ class OTPView extends StatelessWidget {
                       ),
                       firstChild: CustomButton(
                         function: () {
-                          navigateTo(context, const ResetPasswordView());
+                          navigateTo( const ResetPasswordView());
                         },
                         text: 'homeText15'.tr,
                       ),

@@ -1,33 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Size screenSize(context) {
   return MediaQuery.of(context).size;
 }
 
-navigateOff(context, screen) {
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-      builder: (_) {
-        return screen;
-      },
-    ),
-  );
+navigateOff(screen) {
+  Get.off(screen);
 }
 
-navigateTo(context, screen) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) {
-        return screen;
-      },
-    ),
-  );
+navigateTo( screen) {
+   Get.to(screen);
 }
 
-pop(context) {
-  Navigator.pop(
-    context,
-  );
+pop() {
+   Get.back();
 }

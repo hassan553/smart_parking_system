@@ -11,10 +11,11 @@ class LoginController extends GetxController {
   var formKey = GlobalKey<FormState>();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  var isLoading = false.obs;
   validEmail(value) {
     if (value.isEmpty) {
       return 'not valid empty value';
-    } else if (value.contains('@')) {
+    } else if (!value.contains('@')) {
       return 'not valid email ';
     }
     update();
@@ -29,14 +30,21 @@ class LoginController extends GetxController {
     update();
   }
 
-  Future userLogin(BuildContext context,String email, String password) async {
-
+  Future userLogin(BuildContext context, String email, String password) async {
+    isLoading.value = true;
     var result = await loginRepository.login(email, password);
     result.fold((l) {
-      showSnackBarWidget(context: context, message: l, requestStates: RequestStates.error);
+      isLoading.value = false;
+      showSnackBarWidget(
+          context: context, message: l, requestStates: RequestStates.error);
     }, (r) {
-      showSnackBarWidget(context: context, message: 'Login Successfully', requestStates: RequestStates.success);
-      navigateOff(context, const HomeView());
+      isLoading.value = false;
+      showSnackBarWidget(
+          context: context,
+          message: 'Login Successfully',
+          requestStates: RequestStates.success);
+      navigateOff(const HomeView());
     });
+    update();
   }
 }

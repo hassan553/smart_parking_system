@@ -16,7 +16,7 @@ class BookButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: CustomButton(
         function: () {
-          navigateTo(context, const CompleteParkingInfo());
+          navigateTo( const CompleteParkingInfo());
         },
         text: 'homeText3'.tr,
       ),

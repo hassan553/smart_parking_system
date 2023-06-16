@@ -20,7 +20,7 @@ class _SplashTwoViewState extends State<SplashTwoView> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
-      navigateOff(context, const OnBoardingView());
+      navigateOff( const OnBoardingView());
     });
     super.initState();
   }

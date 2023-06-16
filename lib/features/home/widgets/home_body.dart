@@ -17,7 +17,8 @@ class HomeBody extends StatelessWidget {
     return BackgroundWidget(
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsetsDirectional.only(start: 5, end: 5, top: 10),
+          padding: const EdgeInsetsDirectional.only(
+              start: 5, end: 5, top: 10, bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,9 +41,6 @@ class HomeBody extends StatelessWidget {
                 height: screenSize(context).height * .02,
               ),
               const BookButton(),
-              SizedBox(
-                height: screenSize(context).height * .01,
-              ),
             ],
           ),
         ),

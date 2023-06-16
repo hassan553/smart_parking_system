@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:spark/features/setting/controller/setting_controller.dart';
 import '../../../../widgets/background_widget.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_text_field.dart';
 import '../../../../../core/functions/globle_functions.dart';
 import '../../../../../core/resources/app_colors.dart';
 import '../../../../widgets/custom_text.dart';
+import '../../../../widgets/loading.dart';
 import '../../../controller/login_controller.dart';
 import '../../forgetPassword/views/forget_view.dart';
 import '../../register/views/register_view.dart';
@@ -20,7 +22,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginController controller = Get.find();
+    LoginController controller = Get.put(LoginController());
     return Scaffold(
       body: InkWell(
         onTap: () {
@@ -83,7 +85,7 @@ class LoginView extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            navigateTo(context, const ForgetPasswordView());
+                            navigateTo(const ForgetPasswordView());
                           },
                           child: Align(
                             alignment: AlignmentDirectional.topStart,
@@ -97,39 +99,31 @@ class LoginView extends StatelessWidget {
                         SizedBox(
                           height: screenSize(context).height * .05,
                         ),
-                        GetBuilder<LoginController>(
-                          builder: (controller) => CustomButton(
-                            function: () {
-                              if (controller.formKey.currentState!.validate()) {
-                                controller.userLogin(
-                                    context,
-                                    controller.emailController.text.trim(),
-                                    controller.passwordController.text.trim());
-                              }
-                            },
-                            text: 'Sign In'.tr,
+                        Obx(
+                          () => AnimatedCrossFade(
+                            secondChild: const LoadingWidget(),
+                            crossFadeState: controller.isLoading.value
+                                ? CrossFadeState.showSecond
+                                : CrossFadeState.showFirst,
+                            firstChild: SizedBox(
+                              width: screenSize(context).width,
+                              child: CustomButton(
+                                function: () {
+                                  if (controller.formKey.currentState!
+                                      .validate()) {
+                                    controller.userLogin(
+                                        context,
+                                        controller.emailController.text.trim(),
+                                        controller.passwordController.text
+                                            .trim());
+                                  }
+                                },
+                                text: 'Sign In'.tr,
+                              ),
+                            ),
+                            duration: const Duration(milliseconds: 500),
                           ),
                         ),
-                        // AnimatedCrossFade(
-                        //   secondChild: const LoadingWidget(),
-                        //   crossFadeState: state is LoginLoadingState
-                        //       ? CrossFadeState.showSecond
-                        //       : CrossFadeState.showFirst,
-                        //   firstChild: SizedBox(
-                        //     width: screenSize(context).width,
-                        //     child: CustomButton(
-                        //       function: () {
-                        //         if (formKey.currentState!.validate()) {
-                        //           cubit.userLogin(
-                        //               cubit.emailController.text.trim(),
-                        //               cubit.passwordController.text.trim());
-                        //         }
-                        //       },
-                        //       text: 'Sign In'.tr,
-                        //     ),
-                        //   ),
-                        //   duration: const Duration(milliseconds: 500),
-                        // ),
                         SizedBox(
                           height: screenSize(context).height * .02,
                         ),
@@ -142,7 +136,7 @@ class LoginView extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                navigateTo(context, const RegisterView());
+                                navigateTo(const RegisterView());
                               },
                               child: CustomTextWidget(
                                 text: "Sign Up".tr,

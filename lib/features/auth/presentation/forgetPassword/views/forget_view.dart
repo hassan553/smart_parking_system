@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spark/features/auth/controller/forget_password_controller.dart';
+import 'package:spark/features/widgets/loading.dart';
 import '../../../../widgets/background_widget.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_text_field.dart';
@@ -17,7 +19,7 @@ class ForgetPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var passwordController = TextEditingController();
-
+    ForgetPasswordController controller = Get.put(ForgetPasswordController());
     return Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,
@@ -26,7 +28,7 @@ class ForgetPasswordView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         leading: InkWell(
           onTap: () {
-            pop(context);
+            pop();
           },
           child: Icon(
             Icons.arrow_back_rounded,
@@ -94,20 +96,24 @@ class ForgetPasswordView extends StatelessWidget {
                   ),
                   SizedBox(
                     width: screenSize(context).width,
-                    child: AnimatedCrossFade(
-                      crossFadeState: CrossFadeState.showFirst,
-                      secondChild: const Center(
-                        child:
-                            CircularProgressIndicator(color: AppColors.orange),
-                      ),
-                      firstChild: CustomButton(
-                        function: () {
-                          navigateTo(context, const OTPView());
-                        },
-                        text: 'homeText12'.tr,
-                      ),
-                      duration: const Duration(
-                        seconds: 1,
+                    child: Obx(
+                      () => AnimatedCrossFade(
+                        crossFadeState: controller.isLoading.value
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        secondChild: const Center(
+                          child: LoadingWidget(),
+                        ),
+                        firstChild: CustomButton(
+                          function: () {
+                            controller.resetPassword(
+                                context, passwordController.text.trim());
+                          },
+                          text: 'homeText12'.tr,
+                        ),
+                        duration: const Duration(
+                          seconds: 1,
+                        ),
                       ),
                     ),
                   ),

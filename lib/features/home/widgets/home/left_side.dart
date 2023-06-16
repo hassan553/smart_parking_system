@@ -24,7 +24,7 @@ class LeftSideWidget extends StatelessWidget {
         builder: (context, constrainedBox) {
           print(constrainedBox.maxWidth);
           return Padding(
-            padding: const EdgeInsetsDirectional.only(top: 30,bottom: 30),
+            padding: const EdgeInsetsDirectional.only(top: 30, bottom: 30),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -47,7 +47,8 @@ class LeftSideWidget extends StatelessWidget {
                       ),
                     ),
                     width: constrainedBox.maxWidth,
-                    margin: const EdgeInsetsDirectional.only(start: 2, bottom: 2, end: 1),
+                    margin: const EdgeInsetsDirectional.only(
+                        start: 2, bottom: 2, end: 1),
                     height: constrainedBox.maxHeight * .13,
                     child: AnimatedCrossFade(
                       duration: const Duration(milliseconds: 500),

@@ -44,7 +44,7 @@ class OnBoardingView extends StatelessWidget {
                     child: CustomButton(
                       function: () {
                         if (controller.currentIndex == 2) {
-                          navigateOff(context, const LoginView());
+                          navigateOff( const LoginView());
                         } else {
                           controller.checkCurrentIndex();
                         }

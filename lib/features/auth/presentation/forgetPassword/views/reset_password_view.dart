@@ -29,7 +29,7 @@ class ResetPasswordView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         leading: InkWell(
           onTap: () {
-            pop(context);
+            pop();
           },
           child: Icon(
             Icons.arrow_back_rounded,
@@ -90,7 +90,7 @@ class ResetPasswordView extends StatelessWidget {
                     firstChild: CustomButton(
                       function: () {
                         navigateTo(
-                          context,
+                       
                            DoneMessageView(
                             message:
                                 'homeText20'.tr,

@@ -204,7 +204,7 @@ class CompleteParkingInfo extends StatelessWidget {
               ),
               CustomButton(
                 function: () {
-                  navigateTo(context, const CompleteParkingInfo());
+                  navigateTo(const CompleteParkingInfo());
                 },
                 text: 'Payment',
               ),

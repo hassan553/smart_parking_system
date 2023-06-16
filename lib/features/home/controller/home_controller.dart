@@ -16,34 +16,16 @@ class HomeController extends GetxController {
     update();
   }
 
-  List<Widget> screens =  [
+  List<Widget> screens = [
     HomeBody(),
     NotificationView(),
     SettingView(),
   ];
   UserModel? userModel;
-  Future getUserData() async {
-    String? token = sharedPreferences.getString('token');
-    var result = await homeRepo.getUserProfile(token!);
-    result.fold((l) {
-         update();
-    }, (r) {
-      userModel = r;
-      update();
-    });
-  }
 
-  chooseImageFromCamera() async {
-    String? token = sharedPreferences.getString('token');
-    try {
-      await homeRepo.chooseImage().then((value) {
-        homeRepo.uploadImage(token!);
-        print('Success uplaod');
-           update();
-      });
-    } catch (error) {
-      print('Success ${error.toString()}');
-         update();
-    }
+
+  final ImageUploading _imageUploading = ImageUploading();
+  chooseImageFromCamera(BuildContext context,bool isCamera) async {
+    await _imageUploading.getImageAndUpload(context,isCamera);
   }
 }

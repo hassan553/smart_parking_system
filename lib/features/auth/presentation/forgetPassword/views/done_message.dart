@@ -24,7 +24,7 @@ class _DoneMessageViewState extends State<DoneMessageView> {
     Future.delayed(
       const Duration(seconds: 1),
       () => navigateOff(
-        context,
+    
         widget.screen,
       ),
     );

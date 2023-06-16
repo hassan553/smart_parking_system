@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spark/core/helper/binding.dart';
+import 'package:spark/features/auth/controller/forget_password_controller.dart';
 import 'package:spark/features/auth/data/repository/login_repo.dart';
+import 'package:spark/features/auth/data/repository/register_repo.dart';
 import 'package:spark/features/setting/controller/setting_controller.dart';
 import '../core/localization/local.dart';
 import '../core/localization/local_controller.dart';
@@ -21,12 +23,13 @@ class Rakna extends StatefulWidget {
 }
 
 class _RaknaState extends State<Rakna> {
- @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+  
   }
+
   @override
   Widget build(BuildContext context) {
     LocalController controller = Get.put(LocalController());
@@ -53,7 +56,7 @@ class _RaknaState extends State<Rakna> {
             ),
           ),
         ),
-        home:const  SplashOneView(),
+        home: const SplashOneView(),
       ),
     );
   }

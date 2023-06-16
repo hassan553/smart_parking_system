@@ -21,7 +21,7 @@ class RightSideWidget extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constrainedBox) {
           return Padding(
-            padding: const EdgeInsetsDirectional.only(top: 30,bottom: 30),
+            padding: const EdgeInsetsDirectional.only(top: 30, bottom: 30),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +42,8 @@ class RightSideWidget extends StatelessWidget {
                     ),
                   ),
                   width: constrainedBox.maxWidth,
-                  margin: const EdgeInsetsDirectional.only(end: 5, bottom: 2, start: 1),
+                  margin: const EdgeInsetsDirectional.only(
+                      end: 5, bottom: 2, start: 1),
                   height: constrainedBox.maxHeight * .13,
                   child: CustomTextWidget(
                     text: 'P-0${index + 1}',
@@ -56,6 +57,5 @@ class RightSideWidget extends StatelessWidget {
         },
       ),
     );
-    
   }
 }

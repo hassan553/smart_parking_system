@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:spark/features/auth/controller/register_controller.dart';
 import '../../../../home/views/home_view.dart';
 import '../../../../widgets/background_widget.dart';
 import '../../../../widgets/custom_button.dart';
@@ -10,7 +11,6 @@ import '../../../../../core/functions/globle_functions.dart';
 import '../../../../../core/resources/app_colors.dart';
 import '../../../../widgets/custom_text_field.dart';
 import '../../forgetPassword/views/done_message.dart';
-
 
 class CarInfoView extends StatelessWidget {
   const CarInfoView({super.key});
@@ -99,17 +99,17 @@ class CarInfoView extends StatelessWidget {
               SizedBox(
                 height: screenSize(context).height * .05,
               ),
-              CustomButton(
-                function: () {
-                  navigateTo(
-                    context,
-                     DoneMessageView(
-                      message: 'homeText36'.tr,
-                      screen: HomeView(),
-                    ),
-                  );
-                },
-                text: 'homeText37'.tr,
+              GetBuilder<RegisterController>(
+                builder: (controller) => CustomButton(
+                  function: () {
+                    controller.createCarInfo(
+                        context: context,
+                        model: controller.carModel.text,
+                        number: controller.carNumber.text,
+                        color: controller.carColor.text);
+                  },
+                  text: 'homeText37'.tr,
+                ),
               ),
             ],
           ),

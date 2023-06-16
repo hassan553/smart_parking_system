@@ -34,7 +34,7 @@ class SettingView extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                navigateTo(context, const ProfileView());
+                navigateTo( const ProfileView());
               },
               child: Container(
                 padding: const EdgeInsetsDirectional.all(5),
@@ -78,6 +78,7 @@ class SettingView extends StatelessWidget {
               builder: (controller) => Row(
                 children: [
                   Expanded(
+                    flex: 1,
                     child: RadioListTile(
                       value: true,
                       groupValue: settingController.groupValue,
@@ -93,6 +94,7 @@ class SettingView extends StatelessWidget {
                     ),
                   ),
                   Expanded(
+                    flex: 1,
                     child: RadioListTile(
                       value: false,
                       groupValue: settingController.groupValue,
