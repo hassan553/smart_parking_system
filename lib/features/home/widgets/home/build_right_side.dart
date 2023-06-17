@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:spark/features/home/controller/home_controller.dart';
+import 'package:spark/features/home/data/model/place_model.dart';
+import 'package:spark/features/home/widgets/home/booked_place.dart';
+import 'package:spark/features/home/widgets/home/unBooked_place.dart';
 import '../../../../core/functions/globle_functions.dart';
+import '../../../../core/resources/app_colors.dart';
 import '../../../widgets/custom_text.dart';
 
 class RightSideWidget extends StatelessWidget {
@@ -22,34 +28,43 @@ class RightSideWidget extends StatelessWidget {
         builder: (context, constrainedBox) {
           return Padding(
             padding: const EdgeInsetsDirectional.only(top: 30, bottom: 30),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(
-                6,
-                (index) => Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: index == 0
-                          ? const Radius.circular(10)
-                          : const Radius.circular(0),
-                      bottomLeft: index == 5
-                          ? const Radius.circular(10)
-                          : const Radius.circular(0),
-                    ),
-                  ),
-                  width: constrainedBox.maxWidth,
-                  margin: const EdgeInsetsDirectional.only(
-                      end: 5, bottom: 2, start: 1),
-                  height: constrainedBox.maxHeight * .13,
-                  child: CustomTextWidget(
-                    text: 'P-0${index + 1}',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+            child: GetBuilder<HomeController>(
+              builder: (controller) => Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(
+                  controller.rightPlaces.length,
+                  (index) {
+                    return Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: index == 0
+                              ? const Radius.circular(10)
+                              : const Radius.circular(0),
+                          bottomLeft: index == 5
+                              ? const Radius.circular(10)
+                              : const Radius.circular(0),
+                        ),
+                      ),
+                      width: constrainedBox.maxWidth,
+                      margin: const EdgeInsetsDirectional.only(
+                          start: 2, bottom: 2, end: 1),
+                      height: constrainedBox.maxHeight * .13,
+                      child: AnimatedCrossFade(
+                        duration: const Duration(milliseconds: 500),
+                        crossFadeState: controller.rightPlaces[index].isBooked
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                        firstChild: BookedPlace(constrainedBox: constrainedBox),
+                        secondChild: UnBookedPlace(
+                          title: controller.rightPlaces[index].title,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

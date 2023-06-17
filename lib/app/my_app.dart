@@ -6,6 +6,7 @@ import 'package:spark/core/helper/binding.dart';
 import 'package:spark/features/auth/controller/forget_password_controller.dart';
 import 'package:spark/features/auth/data/repository/login_repo.dart';
 import 'package:spark/features/auth/data/repository/register_repo.dart';
+import 'package:spark/features/home/data/repository/home_repo.dart';
 import 'package:spark/features/setting/controller/setting_controller.dart';
 import '../core/localization/local.dart';
 import '../core/localization/local_controller.dart';
@@ -27,7 +28,13 @@ class _RaknaState extends State<Rakna> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  
+    print('DONE');
+    Future(
+      () async {
+        await HomeRepo().getRightPlaces();
+        await HomeRepo().getLeftPlaces();
+      },
+    );
   }
 
   @override

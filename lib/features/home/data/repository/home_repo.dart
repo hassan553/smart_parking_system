@@ -1,75 +1,64 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spark/core/constants/firebase_constants.dart';
-
-import '../../../../core/constants/api.dart';
-import '../../../auth/data/model/user_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:spark/features/home/data/model/place_model.dart';
 
 class HomeRepo {
-  Future<Either<String, UserModel>> getUserProfile(String token) async {
+  Future<Either<String, Map<String, dynamic>?>> _getAllPlaces() async {
     try {
-      http.Response response = await http.get(profileUrl, headers: {
-        'lang': 'en',
-        'Content-Type': 'application/json',
-        "Authorization": token
-      });
-
-      return right(UserModel.fromJson(json.decode(response.body)));
-    } catch (error) {
-      return left(error.toString());
+      final places = <String, dynamic>{};
+      final result =
+          await firebaseFirestore.collection('places').doc('right').get();
+      places.addAll(result.data()!);
+      return right(places);
+    } catch (error, stackTrace) {
+      return left('$error\n$stackTrace');
     }
   }
 
-  // final ImagePicker _picker = ImagePicker();
-  // String? _imageFile;
-  // void _pickImage() async {
-  //   try {
-  //     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-  //     _imageFile = pickedFile!.path;
-  //   } catch (e) {
-  //     print("Image picker error " + e.toString());
-  //   }
-  // }
-  File? file;
-  final ImagePicker _picker = ImagePicker();
-  Future chooseImage() async {
-    file = (await _picker.pickImage(source: ImageSource.camera)) as File?;
-// file = await ImagePicker.pickImage(source: ImageSource.gallery);
-  }
+  Future<Either<String, List<PlaceModel>?>> getRightPlaces() async {
+    try {
+      final places = <PlaceModel>[];
+      final result = await _getAllPlaces();
 
-  void uploadImage(String token) {
-    if (file == null) return;
-    String base64Image = base64Encode(file!.readAsBytesSync());
-    String fileName = file!.path.split("/").last;
+      return result.fold(
+        (left) => Left(left),
+        (right) {
+          final res = right!['right'] as List;
+          places.addAll(
+              res.map((element) => PlaceModel.fromJson(element)).toList());
 
-    http.put(
-      updateProfileUrl,
-      body: json.encode(
-        {
-          "image": base64Image,
+          return Right(places);
         },
-      ),
-      headers: {
-        'lang': 'en',
-        'Content-Type': 'application/json',
-        "Authorization": token
-      },
-    ).then((res) {
-      print(fileName);
-    }).catchError((err) {
-      print(err);
-    });
+      );
+    } catch (error, stackTrace) {
+      return left('$error\n$stackTrace');
+    }
   }
 
-  
+  Future<Either<String, List<PlaceModel>?>> getLeftPlaces() async {
+    try {
+      final places = <PlaceModel>[];
+      final result = await _getAllPlaces();
+
+      return result.fold(
+        (left) => Left(left),
+        (right) {
+          final res = right!['left'] as List;
+          places.addAll(
+              res.map((element) => PlaceModel.fromJson(element)).toList());
+
+          return Right(places);
+        },
+      );
+    } catch (error, stackTrace) {
+      return left('$error\n$stackTrace');
+    }
+  }
 }
 
 class ImageUploading {
@@ -86,7 +75,6 @@ class ImageUploading {
       print(e.toString());
     }
   }
-
 
   Future<void> getImageAndUpload(BuildContext context, bool isCamera) async {
     final picker = ImagePicker();
