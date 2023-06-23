@@ -1,22 +1,56 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spark/core/constants/firebase_constants.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 import 'package:spark/features/home/data/model/place_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:spark/main.dart';
 
 class HomeRepo {
+  uploadData() async {
+    final response = await http.post(
+        Uri.parse(
+            'https://rakna-3da8c-default-rtdb.firebaseio.com/places.json'),
+        body: jsonEncode({'left': leftList}));
+    print(response.body);
+  }
+
+  getData() async {
+    final response = await http.get(
+      Uri.parse('https://rakna-3da8c-default-rtdb.firebaseio.com/places.json'),
+    );
+    final r =
+        jsonDecode(response.body)['-NYMswFVKTb03yuoD0dg']['right'] as List;
+    List<PlaceModel> places = [];
+    r.forEach(
+      (element) {
+        places.add(PlaceModel.fromJson(element));
+      },
+    );
+    print(places);
+    //print(jsonDecode(response.body)['-NYMtBORAD-8W2Y3OzO_']['left']);
+  }
+
   Future<Either<String, Map<String, dynamic>?>> _getAllPlaces() async {
     try {
-      final places = <String, dynamic>{};
+      final places = <String, dynamic>{}.obs;
       final result =
-          await firebaseFirestore.collection('places').doc('right').get();
-      places.addAll(result.data()!);
-      return right(places);
+          FirebaseFirestore.instance.collection('places').doc('right').get();
+      print(result);
+      result.then((value) {
+        print(value.data()!['right']);
+        places.addAll(value.data()!);
+      });
+
+      return right(places.value);
     } catch (error, stackTrace) {
-      return left('$error\n$stackTrace');
+      return Left('$error\n$stackTrace');
     }
   }
 
@@ -31,12 +65,12 @@ class HomeRepo {
           final res = right!['right'] as List;
           places.addAll(
               res.map((element) => PlaceModel.fromJson(element)).toList());
-
+          print('right ${places}');
           return Right(places);
         },
       );
     } catch (error, stackTrace) {
-      return left('$error\n$stackTrace');
+      return Left('$error\n$stackTrace');
     }
   }
 
@@ -56,7 +90,7 @@ class HomeRepo {
         },
       );
     } catch (error, stackTrace) {
-      return left('$error\n$stackTrace');
+      return Left('$error\n$stackTrace');
     }
   }
 }

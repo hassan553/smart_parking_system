@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:spark/features/auth/controller/register_controller.dart';
+import 'package:spark/features/auth/presentation/car_info/views/car_info.dart';
 import '../../../../../core/functions/globle_functions.dart';
 import '../../../../widgets/background_widget.dart';
 
@@ -19,16 +21,12 @@ class DoneMessageView extends StatefulWidget {
 }
 
 class _DoneMessageViewState extends State<DoneMessageView> {
+  RegisterController controller = Get.find();
   @override
   void initState() {
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => navigateOff(
-    
-        widget.screen,
-      ),
-    );
+    // TODO: implement initState
     super.initState();
+    controller.isUserEmailVerified();
   }
 
   @override
@@ -56,6 +54,23 @@ class _DoneMessageViewState extends State<DoneMessageView> {
                     color: Colors.black,
                   ),
                   textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                if (controller.isEmailVerified.value)
+                  navigateOff(const CarInfoView()),
+                MaterialButton(
+                  color: Colors.green,
+                  minWidth: 100,
+                  height: 60,
+                  onPressed: () {
+                    controller.resentEmailVerification();
+                  },
+                  child: const Text(
+                    'Resend Email',
+                    style: TextStyle(fontSize: 25),
+                  ),
                 ),
               ],
             ),

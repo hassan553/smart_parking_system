@@ -14,6 +14,7 @@ class RightSideWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HomeController controller = Get.find();
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xff373737),
@@ -28,8 +29,8 @@ class RightSideWidget extends StatelessWidget {
         builder: (context, constrainedBox) {
           return Padding(
             padding: const EdgeInsetsDirectional.only(top: 30, bottom: 30),
-            child: GetBuilder<HomeController>(
-              builder: (controller) => Column(
+            child: Obx(
+              () => Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,

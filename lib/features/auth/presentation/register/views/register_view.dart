@@ -148,8 +148,8 @@ class RegisterView extends StatelessWidget {
                         width: screenSize(context).width,
                         child: Obx(
                           () => AnimatedCrossFade(
-                            secondChild: const LoadingWidget(),
-                            crossFadeState: true
+                            secondChild: const Center(child: LoadingWidget()),
+                            crossFadeState: controller.isLoading.value
                                 ? CrossFadeState.showSecond
                                 : CrossFadeState.showFirst,
                             firstChild: SizedBox(

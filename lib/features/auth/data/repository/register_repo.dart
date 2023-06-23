@@ -11,10 +11,11 @@ abstract class RegisterRepository {
 
   Future<Either<String, String>> createCarInfo(
       {required String model, required String number, required String color});
+  bool checkIsEmailVerified();
+  Future<Either<String, String>> sendVerificationEmail();
 }
 
 class RegisterRepositoryImpl extends RegisterRepository {
- 
   @override
   Future<Either<String, String>> createCarInfo(
       {required String model,
@@ -43,27 +44,53 @@ class RegisterRepositoryImpl extends RegisterRepository {
       UserCredential result = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       UserModel userModel = UserModel(
-          name: name, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWExOnUzueyinId7RyD4JOuTDrXPlLgnxH4Q&usqp=CAU', email: email);
+          name: name,
+          image:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWExOnUzueyinId7RyD4JOuTDrXPlLgnxH4Q&usqp=CAU',
+          email: email);
 
-      await firebaseFirestore
-          .collection('users').doc(auth.currentUser!.uid)
-          .set(userModel.toMap());
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .set(userModel.toMap())
+          .then((value) {
+        sendVerificationEmail();
+      });
       return right(result);
     } catch (error) {
       return left('Oops an Error.Try again');
     }
   }
-}
-class t{
-  FirebaseMessaging fb=FirebaseMessaging.instance;
 
-  void send()async{
-   String? token=await fb.getToken();
-   print(token);
- }
- void onMessage(){
+  @override
+  bool checkIsEmailVerified() {
+    return user != null && user!.emailVerified;
+  }
+
+  @override
+  Future<Either<String, String>> sendVerificationEmail() async {
+    try {
+      if (user != null) {
+        await user?.sendEmailVerification();
+      }
+      return right('we send an email verification to your email');
+    } catch (error) {
+      return left(error.toString());
+    }
+  }
+}
+
+class t {
+  FirebaseMessaging fb = FirebaseMessaging.instance;
+
+  void send() async {
+    String? token = await fb.getToken();
+    print(token);
+  }
+
+  void onMessage() {
     FirebaseMessaging.onMessage.listen((event) {
       print(event.data['name']);
     });
- }
+  }
 }

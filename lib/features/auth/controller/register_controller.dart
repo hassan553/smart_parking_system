@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spark/features/auth/presentation/forgetPassword/views/done_message.dart';
 import 'package:spark/features/home/views/home_view.dart';
 import '../../../core/functions/globle_functions.dart';
 import '../../widgets/snack_bar_widget.dart';
@@ -35,7 +36,10 @@ class RegisterController extends GetxController {
           context: context,
           message: 'Create Account Successfully',
           requestStates: RequestStates.success);
-      navigateOff(const CarInfoView());
+      navigateOff(const DoneMessageView(
+        message: 'We just sent an email verification to your email address ',
+        screen: CarInfoView(),
+      ));
     });
   }
 
@@ -55,31 +59,14 @@ class RegisterController extends GetxController {
       navigateOff(const HomeView());
     });
   }
-}
-/*
-import 'package:firebase_auth/firebase_auth.dart';
 
-// Check if the user's email is verified
-bool isEmailVerified() {
-  User? user = FirebaseAuth.instance.currentUser;
-  return user != null && user.emailVerified;
-}
-///////////////////
-import 'package:firebase_auth/firebase_auth.dart';
+  var isEmailVerified = false.obs;
+  isUserEmailVerified() {
+    isEmailVerified.value = _registerRepository.checkIsEmailVerified();
+    if (isEmailVerified.value) navigateOff(const CarInfoView());
+  }
 
-// Send a verification email to the user
-Future<void> sendVerificationEmail() async {
-  User? user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    try {
-      await user.sendEmailVerification();
-      // Verification email sent
-      // Provide feedback to the user or navigate to a success page
-    } catch (error) {
-      // Handle any errors that occurred during the email sending process
-      // Display an error message or navigate to an error page
-    }
+  resentEmailVerification() {
+    _registerRepository.sendVerificationEmail();
   }
 }
-
-*/

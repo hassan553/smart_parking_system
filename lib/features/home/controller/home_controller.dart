@@ -29,19 +29,30 @@ class HomeController extends GetxController {
     await _imageUploading.getImageAndUpload(context, isCamera);
   }
 
-  List<PlaceModel> rightPlaces = [];
-  getRightPlaces() async {
-    var result = await homeRepo.getRightPlaces();
-    result.fold((l) {}, (r) {
-      rightPlaces = r!;
+  RxList<PlaceModel> rightPlaces = <PlaceModel>[].obs;
+
+  void getRightPlaces() {
+    homeRepo.getRightPlaces().then((result) {
+      result.fold(
+        (l) {},
+        (r) {
+          rightPlaces = r!.obs;
+        },
+      );
     });
   }
 
-  List<PlaceModel> leftPlaces = [];
-  getLeftPlaces() async {
-    var result = await homeRepo.getLeftPlaces();
-    result.fold((l) {}, (r) {
-      leftPlaces = r!;
+  RxList<PlaceModel> leftPlaces = <PlaceModel>[].obs;
+
+  void getLeftPlaces() {
+    homeRepo.getLeftPlaces().then((result) {
+      result.fold(
+        (l) {},
+        (r) {
+          print('r.obs${r.obs}');
+          leftPlaces = r!.obs;
+        },
+      );
     });
   }
 
@@ -49,7 +60,13 @@ class HomeController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getLeftPlaces();
-    getRightPlaces();
+    print('IN');
+    Future(
+      () async {
+        //  getLeftPlaces();
+        // getRightPlaces();
+        HomeRepo().getRightPlaces();
+      },
+    );
   }
 }

@@ -13,6 +13,7 @@ class LeftSideWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HomeController controller = Get.find();
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xff373737),
@@ -27,8 +28,8 @@ class LeftSideWidget extends StatelessWidget {
         builder: (context, constrainedBox) {
           return Padding(
             padding: const EdgeInsetsDirectional.only(top: 30, bottom: 30),
-            child: GetBuilder<HomeController>(
-              builder:(controller) =>  Column(
+            child: Obx(
+             () => Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -55,9 +56,13 @@ class LeftSideWidget extends StatelessWidget {
                       height: constrainedBox.maxHeight * .13,
                       child: AnimatedCrossFade(
                         duration: const Duration(milliseconds: 500),
-                        crossFadeState: controller.leftPlaces[index].isBooked?CrossFadeState.showFirst:CrossFadeState.showSecond,
-                        firstChild:BookedPlace(constrainedBox: constrainedBox),
-                        secondChild:  UnBookedPlace(title: controller.leftPlaces[index].title,),
+                        crossFadeState: controller.leftPlaces[index].isBooked
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                        firstChild: BookedPlace(constrainedBox: constrainedBox),
+                        secondChild: UnBookedPlace(
+                          title: controller.leftPlaces[index].title,
+                        ),
                       ),
                     ),
                   ),

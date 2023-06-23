@@ -40,6 +40,7 @@ class HomeBody extends StatelessWidget {
               SizedBox(
                 height: screenSize(context).height * .02,
               ),
+              //DetailsView()
               // const BookButton(),
             ],
           ),
