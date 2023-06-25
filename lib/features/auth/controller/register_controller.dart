@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spark/features/auth/presentation/forgetPassword/views/done_message.dart';
@@ -36,10 +37,9 @@ class RegisterController extends GetxController {
           context: context,
           message: 'Create Account Successfully',
           requestStates: RequestStates.success);
-      navigateOff(const DoneMessageView(
-        message: 'We just sent an email verification to your email address ',
-        screen: CarInfoView(),
-      ));
+      navigateOff(
+        const CarInfoView(),
+      );
     });
   }
 

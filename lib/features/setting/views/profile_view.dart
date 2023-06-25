@@ -1,10 +1,8 @@
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spark/features/home/controller/home_controller.dart';
-import 'package:get/get.dart';
+
 import 'package:spark/features/setting/controller/setting_controller.dart';
-import 'package:spark/features/setting/data/repository/setting_repo.dart';
 import '../../../core/resources/app_colors.dart';
 import '../../widgets/background_widget.dart';
 
@@ -100,7 +98,7 @@ class ProfileView extends StatelessWidget {
                     height: 10,
                   ),
                   CustomTextWidget(
-                    text: controller.userModel!.name ?? 'hassans',
+                    text: controller.userModel!.name ?? 'hassan',
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
@@ -136,7 +134,7 @@ class ProfileView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomTextWidget(
-                                text: controller.listOfCars[0].number!,
+                                text: controller.listOfCars[0].number??00000.toString(),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
@@ -145,7 +143,7 @@ class ProfileView extends StatelessWidget {
                               ),
                               CustomTextWidget(
                                 text:
-                                    '${controller.listOfCars[0].color!} | ${controller.listOfCars[0].model!}',
+                                  '${controller.listOfCars[0].color??'red'} | ${controller.listOfCars[0].model??'mercedes'}',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                               ),

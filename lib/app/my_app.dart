@@ -8,6 +8,7 @@ import 'package:spark/features/auth/data/repository/login_repo.dart';
 import 'package:spark/features/auth/data/repository/register_repo.dart';
 import 'package:spark/features/home/data/repository/home_repo.dart';
 import 'package:spark/features/home/views/home_view.dart';
+import 'package:spark/features/home/views/timer_view.dart';
 import 'package:spark/features/setting/controller/setting_controller.dart';
 import '../core/localization/local.dart';
 import '../core/localization/local_controller.dart';
@@ -26,8 +27,6 @@ class Rakna extends StatefulWidget {
 }
 
 class _RaknaState extends State<Rakna> {
-  
-
   @override
   Widget build(BuildContext context) {
     LocalController controller = Get.put(LocalController());
@@ -54,8 +53,7 @@ class _RaknaState extends State<Rakna> {
             ),
           ),
         ),
-        
-        home: const HomeView(),//const SplashOneView(),
+        home: const SplashOneView(),
       ),
     );
   }

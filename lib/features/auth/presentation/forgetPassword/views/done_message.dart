@@ -65,7 +65,7 @@ class _DoneMessageViewState extends State<DoneMessageView> {
                   minWidth: 100,
                   height: 60,
                   onPressed: () {
-                    controller.resentEmailVerification();
+                    navigateOff(const CarInfoView());
                   },
                   child: const Text(
                     'Resend Email',

@@ -54,7 +54,7 @@ class RegisterRepositoryImpl extends RegisterRepository {
           .doc(auth.currentUser!.uid)
           .set(userModel.toMap())
           .then((value) {
-        sendVerificationEmail();
+        
       });
       return right(result);
     } catch (error) {

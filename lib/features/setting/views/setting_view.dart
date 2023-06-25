@@ -45,9 +45,9 @@ class SettingView extends StatelessWidget {
                 width: screenSize(context).width,
                 child: Row(
                   children: [
-                    const CircleAvatar(
+                     CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage('assets/images/preson.jpg'),
+                      backgroundImage: NetworkImage(settingController.userModel!.image!),
                     ),
                     const SizedBox(
                       width: 10,
@@ -56,7 +56,7 @@ class SettingView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextWidget(
-                          text: 'Hassan Marzouk',
+                          text: settingController.userModel!.name!,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),

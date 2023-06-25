@@ -14,15 +14,6 @@ import 'package:http/http.dart' as http;
 import '../../../../main.dart';
 
 class HomeRepo {
-  add() async {
-    final response = await http.post(
-        Uri.parse(
-            'https://rakna-3da8c-default-rtdb.firebaseio.com/places.json'),
-        body: jsonEncode({
-          'places': rightList,
-        }));
-  }
-
   Future<List<PlaceModel>> getPlacesData() async {
     print('in');
     try {
@@ -30,8 +21,8 @@ class HomeRepo {
         Uri.parse(
             'https://rakna-3da8c-default-rtdb.firebaseio.com/places.json'),
       );
-      final r = jsonDecode(response.body)['-NYiltRSUG2JeXvXDIds']
-          ['places'] as List;
+      final r =
+          jsonDecode(response.body)['-NYiltRSUG2JeXvXDIds']['places'] as List;
 
       List<PlaceModel> places = [];
       print('o');
@@ -45,63 +36,6 @@ class HomeRepo {
       return places;
     } catch (error) {
       return [];
-    }
-  }
-
-  Future<Either<String, Map<String, dynamic>?>> _getAllPlaces() async {
-    try {
-      final places = <String, dynamic>{}.obs;
-      final result =
-          FirebaseFirestore.instance.collection('places').doc('right').get();
-      print(result);
-      result.then((value) {
-        print(value.data()!['right']);
-        places.addAll(value.data()!);
-      });
-
-      return right(places.value);
-    } catch (error, stackTrace) {
-      return Left('$error\n$stackTrace');
-    }
-  }
-
-  Future<Either<String, List<PlaceModel>?>> getRightPlaces() async {
-    try {
-      final places = <PlaceModel>[];
-      final result = await _getAllPlaces();
-
-      return result.fold(
-        (left) => Left(left),
-        (right) {
-          final res = right!['right'] as List;
-          places.addAll(
-              res.map((element) => PlaceModel.fromJson(element)).toList());
-          print('right ${places}');
-          return Right(places);
-        },
-      );
-    } catch (error, stackTrace) {
-      return Left('$error\n$stackTrace');
-    }
-  }
-
-  Future<Either<String, List<PlaceModel>?>> getLeftPlaces() async {
-    try {
-      final places = <PlaceModel>[];
-      final result = await _getAllPlaces();
-
-      return result.fold(
-        (left) => Left(left),
-        (right) {
-          final res = right!['left'] as List;
-          places.addAll(
-              res.map((element) => PlaceModel.fromJson(element)).toList());
-
-          return Right(places);
-        },
-      );
-    } catch (error, stackTrace) {
-      return Left('$error\n$stackTrace');
     }
   }
 }

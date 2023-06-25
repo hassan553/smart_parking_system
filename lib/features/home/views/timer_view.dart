@@ -1,15 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:spark/features/widgets/background_widget.dart';
 
 import '../../../core/functions/globle_functions.dart';
 import '../../../core/resources/app_colors.dart';
 import '../../widgets/custom_text.dart';
-import '../widgets/home/book_button.dart';
 
-class TimerView extends StatelessWidget {
+class TimerView extends StatefulWidget {
   const TimerView({super.key});
+
+  @override
+  State<TimerView> createState() => _TimerViewState();
+}
+
+class _TimerViewState extends State<TimerView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2))
+          ..repeat();
+    _animation =
+        CurvedAnimation(parent: _animationController, curve: Curves.linear);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _animationController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +95,16 @@ class TimerView extends StatelessWidget {
                     height: 30,
                   ),
                   Center(
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.white,
-                      radius: 80,
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/car.PNG',
-                          fit: BoxFit.fill,
+                    child: RotationTransition(
+                      turns: _animation,
+                      child: CircleAvatar(
+                        backgroundColor: AppColors.white,
+                        radius: 80,
+                        child: Center(
+                          child: Image.asset(
+                            'assets/images/car.PNG',
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
                     ),

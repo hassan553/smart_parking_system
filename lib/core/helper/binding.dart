@@ -9,7 +9,7 @@ import '../../features/auth/controller/register_controller.dart';
 class Binding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => HomeController());
+    Get.put(() => HomeController(), permanent: true);
     Get.lazyPut(() => SettingController());
     Get.lazyPut(() => LoginController()); 
     Get.lazyPut(() => RegisterController());
