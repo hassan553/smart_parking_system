@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spark/features/home/data/model/place_model.dart';
@@ -56,17 +58,19 @@ class HomeController extends GetxController {
     });
   }
 
+  List<PlaceModel> places = [];
+  StreamController<List<PlaceModel>> streamController =
+      StreamController<List<PlaceModel>>.broadcast();
+
+  void getAllPlaces() async {
+    places = await homeRepo.getPlacesData();
+    streamController.add(places);
+    update();
+  }
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    print('IN');
-    Future(
-      () async {
-        //  getLeftPlaces();
-        // getRightPlaces();
-        HomeRepo().getRightPlaces();
-      },
-    );
   }
 }

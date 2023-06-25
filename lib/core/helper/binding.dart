@@ -11,7 +11,7 @@ class Binding extends Bindings {
   void dependencies() {
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => SettingController());
-    Get.lazyPut(() => LoginController());
+    Get.lazyPut(() => LoginController()); 
     Get.lazyPut(() => RegisterController());
   }
 }

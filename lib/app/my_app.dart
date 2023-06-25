@@ -26,16 +26,7 @@ class Rakna extends StatefulWidget {
 }
 
 class _RaknaState extends State<Rakna> {
-  HomeRepo r = HomeRepo();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('in');
-    r.getRightPlaces();
-    print('//////////////////////////////////');
-    r.getLeftPlaces();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +54,8 @@ class _RaknaState extends State<Rakna> {
             ),
           ),
         ),
-        home: const SplashOneView(),
+        
+        home: const HomeView(),//const SplashOneView(),
       ),
     );
   }

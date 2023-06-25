@@ -5,17 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spark/app/my_app.dart';
 import 'package:spark/features/home/data/repository/home_repo.dart';
 import 'core/screvice_locator/screvices.dart';
-import 'features/home/views/details_view.dart';
-import 'features/home/views/timer_view.dart';
+
 
 late SharedPreferences sharedPreferences;
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // sharedPreferences = await SharedPreferences.getInstance();
-  // await ServicesLector.init();
-  // await Firebase.initializeApp();
-  runApp(const TestApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedPreferences = await SharedPreferences.getInstance();
+  await ServicesLector.init();
+  await Firebase.initializeApp();
+  runApp(const Rakna());
 }
 
 void setOrientations() {
@@ -27,19 +26,31 @@ void setOrientations() {
   );
 }
 
-class TestApp extends StatelessWidget {
+class TestApp extends StatefulWidget {
   const TestApp({super.key});
+
+  @override
+  State<TestApp> createState() => _TestAppState();
+}
+
+class _TestAppState extends State<TestApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    HomeRepo().getPlacesData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body:TimerView(),
+        body: Container(),
       ),
     );
   }
 }
-//left -NYMtBORAD-8W2Y3OzO_
+
 //right -NYMswFVKTb03yuoD0dg
 List<Map<String, dynamic>> leftList = [
   {

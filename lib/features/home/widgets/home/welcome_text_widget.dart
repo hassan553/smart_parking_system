@@ -20,7 +20,7 @@ class WelcomeTextWidget extends StatelessWidget {
           children: [
             CustomTextWidget(
               text: 'homeText1'.tr,
-              fontSize: 18.sp,
+              fontSize: 25.sp,
               fontWeight: FontWeight.w600,
             ),
             SizedBox(

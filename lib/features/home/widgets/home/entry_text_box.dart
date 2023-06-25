@@ -15,11 +15,13 @@ class EntryBoxTextWidget extends StatelessWidget {
       alignment: Alignment.center,
       child: Container(
         padding: const EdgeInsets.all(5),
+        width: 100,
         decoration: BoxDecoration(
           color: const Color(0xffA4A4A4),
           border: Border.all(width: 2, color: AppColors.black),
           borderRadius: BorderRadius.circular(10),
         ),
+        alignment: Alignment.center,
         child: CustomTextWidget(
           text: 'homeText2'.tr,
           fontWeight: FontWeight.bold,

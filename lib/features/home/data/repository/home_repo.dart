@@ -10,31 +10,42 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 import 'package:spark/features/home/data/model/place_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:spark/main.dart';
+
+import '../../../../main.dart';
 
 class HomeRepo {
-  uploadData() async {
+  add() async {
     final response = await http.post(
         Uri.parse(
             'https://rakna-3da8c-default-rtdb.firebaseio.com/places.json'),
-        body: jsonEncode({'left': leftList}));
-    print(response.body);
+        body: jsonEncode({
+          'places': rightList,
+        }));
   }
 
-  getData() async {
-    final response = await http.get(
-      Uri.parse('https://rakna-3da8c-default-rtdb.firebaseio.com/places.json'),
-    );
-    final r =
-        jsonDecode(response.body)['-NYMswFVKTb03yuoD0dg']['right'] as List;
-    List<PlaceModel> places = [];
-    r.forEach(
-      (element) {
-        places.add(PlaceModel.fromJson(element));
-      },
-    );
-    print(places);
-    //print(jsonDecode(response.body)['-NYMtBORAD-8W2Y3OzO_']['left']);
+  Future<List<PlaceModel>> getPlacesData() async {
+    print('in');
+    try {
+      final response = await http.get(
+        Uri.parse(
+            'https://rakna-3da8c-default-rtdb.firebaseio.com/places.json'),
+      );
+      final r = jsonDecode(response.body)['-NYiltRSUG2JeXvXDIds']
+          ['places'] as List;
+
+      List<PlaceModel> places = [];
+      print('o');
+      r.forEach(
+        (element) {
+          print(element);
+          places.add(PlaceModel.fromJson(element));
+        },
+      );
+      print(places);
+      return places;
+    } catch (error) {
+      return [];
+    }
   }
 
   Future<Either<String, Map<String, dynamic>?>> _getAllPlaces() async {
