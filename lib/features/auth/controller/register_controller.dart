@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:spark/features/auth/presentation/forgetPassword/views/done_message.dart';
 import 'package:spark/features/home/views/home_view.dart';
 import '../../../core/functions/globle_functions.dart';
+import '../../../main.dart';
+import '../../home/views/map_view.dart';
 import '../../widgets/snack_bar_widget.dart';
 import '../data/repository/register_repo.dart';
 import '../presentation/car_info/views/car_info.dart';
@@ -31,12 +33,14 @@ class RegisterController extends GetxController {
       isLoading.value = false;
       showSnackBarWidget(
           context: context, message: l, requestStates: RequestStates.error);
-    }, (r) {
+    }, (r)async {
       isLoading.value = false;
       showSnackBarWidget(
           context: context,
           message: 'Create Account Successfully',
           requestStates: RequestStates.success);
+                   await  sharedPreferences.setString('userId',r);
+
       navigateOff(
         const CarInfoView(),
       );

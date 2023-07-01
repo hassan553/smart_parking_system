@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spark/core/functions/globle_functions.dart';
 import 'package:spark/features/home/views/home_view.dart';
+import 'package:spark/main.dart';
 
 import '../../widgets/snack_bar_widget.dart';
 import '../data/repository/login_repo.dart';
@@ -37,12 +38,13 @@ class LoginController extends GetxController {
       isLoading.value = false;
       showSnackBarWidget(
           context: context, message: l, requestStates: RequestStates.error);
-    }, (r) {
+    }, (r)async {
       isLoading.value = false;
       showSnackBarWidget(
           context: context,
           message: 'Login Successfully',
           requestStates: RequestStates.success);
+         await  sharedPreferences.setString('userId',r);
       navigateOff(const HomeView());
     });
     update();

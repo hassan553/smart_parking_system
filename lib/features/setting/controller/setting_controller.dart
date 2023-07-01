@@ -21,7 +21,7 @@ class SettingController extends GetxController {
   }
 
   UserModel? userModel;
-  List<CarModel> listOfCars = [];
+  CarModel? listOfCars ;
 
   SettingRepo? _settingRepo;
   getUserData() async {
@@ -30,9 +30,11 @@ class SettingController extends GetxController {
     update();
   }
 
-  getUserCarsData() async {
+ void  getUserCarsData() async {
     listOfCars = await SettingRepo().getUserCarDataFromFirebase();
+    print('////////////');
     print(listOfCars);
+    print('//////////////');
     update();
   }
 

@@ -1,19 +1,17 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spark/core/constants/firebase_constants.dart';
 import 'package:spark/features/auth/data/model/user_model.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
 class SettingRepo {
   Future<UserModel> getUserDataFromFirebase() async {
     UserModel userModel;
     DocumentSnapshot<Map<String, dynamic>> result =
-        await firebaseFirestore.collection('users').doc(user!.uid).get();
+        await firebaseFirestore.collection('users').doc(user).get();
     print('result${result.data()}');
     userModel = UserModel.fromJson(
       result.data(),
@@ -21,18 +19,13 @@ class SettingRepo {
     return userModel;
   }
 
-  Future<List<CarModel>> getUserCarDataFromFirebase() async {
-    List<CarModel> listOfCars=[];
-    QuerySnapshot<Map<String, dynamic>> result = await firebaseFirestore
-        .collection('users')
-        .doc(user!.uid)
-        .collection('cars')
-        .get();
+  Future<CarModel> getUserCarDataFromFirebase() async {
+    CarModel listOfCars ;
+    final result = await firebaseFirestore.collection('cars').doc(user).get();
 
-    result.docs.forEach((element) {
-      listOfCars.add(CarModel.fromJson(element.data()));
-    });
-    print(listOfCars);
+    listOfCars=CarModel.fromJson(result.data());
+
+
     return listOfCars;
   }
 }
@@ -71,7 +64,7 @@ class ImageUploading {
     try {
       firebaseFirestore
           .collection('users')
-          .doc(user!.uid)
+          .doc(user)
           .update({'image': imageUrl});
     } catch (error) {
       print(error);

@@ -65,6 +65,8 @@ dependencies:
   lottie: ^2.2.0
   shared_preferences: ^2.0.16
   uuid: ^3.0.7
+  awesome_dialog: ^3.1.0
+
 
 
 dev_dependencies:

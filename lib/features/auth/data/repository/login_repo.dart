@@ -6,17 +6,17 @@ import '../../../../core/constants/firebase_constants.dart';
 
 
 abstract class LoginRepository {
-  Future<Either<String, UserCredential>> login(String email, String password);
+  Future<Either<String, String >> login(String email, String password);
 }
 
 class LoginRepositoryImpl extends LoginRepository {
   @override
-  Future<Either<String, UserCredential>> login(
+  Future<Either<String, String>> login(
       String email, String password) async {
     try {
       UserCredential result = await auth.signInWithEmailAndPassword(
           email: email, password: password);
-      return right(result);
+      return right(result.user!.uid);
     } catch (error) {
       return left('Oops an Error. Try again');
     }

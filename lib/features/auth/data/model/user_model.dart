@@ -1,4 +1,3 @@
-import 'package:flutter/animation.dart';
 
 class UserModel {
   String? name;
@@ -16,7 +15,7 @@ class UserModel {
 }
 
 class CarModel {
-  Color? color;
+  String? color;
   String? model;
   String? number;
   CarModel({
@@ -24,9 +23,9 @@ class CarModel {
     this.model,
     this.number,
   });
-  factory CarModel.fromJson(Map json) {
+  factory CarModel.fromJson(Map<String,dynamic>? json) {
     return CarModel(
-        color: json['color'], model: json['model'], number: json['number']);
+        color: json!['color'], model: json['model'], number: json['number']);
   }
   Map<String, dynamic> toMap() {
     return {'number': number, 'model': model, 'color': color};

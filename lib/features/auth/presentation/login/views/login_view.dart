@@ -116,6 +116,7 @@ class LoginView extends StatelessWidget {
                                         controller.emailController.text.trim(),
                                         controller.passwordController.text
                                             .trim());
+                                            FocusScope.of(context).unfocus();
                                   }
                                 },
                                 text: 'Sign In'.tr,

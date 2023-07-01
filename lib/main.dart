@@ -14,6 +14,7 @@ void main() async {
   sharedPreferences = await SharedPreferences.getInstance();
   await ServicesLector.init();
   await Firebase.initializeApp();
+
   runApp(const Rakna());
 }
 

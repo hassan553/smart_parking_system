@@ -98,7 +98,7 @@ class ProfileView extends StatelessWidget {
                     height: 10,
                   ),
                   CustomTextWidget(
-                    text: controller.userModel!.name ?? 'hassan',
+                    text: controller.userModel!.name ?? 'hassan ',
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
@@ -134,7 +134,7 @@ class ProfileView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomTextWidget(
-                                text: controller.listOfCars[0].number??00000.toString(),
+                                text: controller.listOfCars?.number??'00000',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
@@ -143,7 +143,7 @@ class ProfileView extends StatelessWidget {
                               ),
                               CustomTextWidget(
                                 text:
-                                  '${controller.listOfCars[0].color??'red'} | ${controller.listOfCars[0].model??'mercedes'}',
+                                  '${controller.listOfCars?.color} | ${controller.listOfCars?.model}',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                               ),

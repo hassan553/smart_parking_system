@@ -168,6 +168,7 @@ class RegisterView extends StatelessWidget {
                                       name:
                                           controller.nameController.text.trim(),
                                     );
+                                    FocusScope.of(context).unfocus();
                                   }
                                 },
                                 text: 'homeText21'.tr,

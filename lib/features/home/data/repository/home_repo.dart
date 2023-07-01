@@ -14,13 +14,15 @@ import 'package:http/http.dart' as http;
 import '../../../../main.dart';
 
 class HomeRepo {
+  Future bookedPlace() async {
+     final response = await http.put(url,body: jsonEncode({
+      
+     }));
+  }
   Future<List<PlaceModel>> getPlacesData() async {
     print('in');
     try {
-      final response = await http.get(
-        Uri.parse(
-            'https://rakna-3da8c-default-rtdb.firebaseio.com/places.json'),
-      );
+      final response = await http.get(url);
       final r =
           jsonDecode(response.body)['-NYiltRSUG2JeXvXDIds']['places'] as List;
 
@@ -38,6 +40,32 @@ class HomeRepo {
       return [];
     }
   }
+  Future<void> updatePlaceData(int placeId, bool newValue) async {
+  try {
+    final response = await http.get(url);
+    final responseData = jsonDecode(response.body);
+
+    // Retrieve the places node
+    final placesNode = responseData['-NYiltRSUG2JeXvXDIds']['places'];
+
+    // Find the place with the specified placeId
+    final placeToUpdate = placesNode.firstWhere((place) => place['id'] == placeId);
+
+    // Update the desired value
+    placeToUpdate['isBooked'] = newValue;
+
+    // Prepare the updated data
+    final updatedData = jsonEncode(responseData);
+
+    // Perform the update request
+    await http.put(url, body: updatedData);
+
+    print('Place data updated successfully');
+  } catch (error) {
+    print('Failed to update place data: $error');
+  }
+}
+
 }
 
 class ImageUploading {
@@ -74,7 +102,7 @@ class ImageUploading {
     try {
       firebaseFirestore
           .collection('users')
-          .doc(user!.uid)
+          .doc(user)
           .update({'image': imageUrl});
     } catch (error) {
       print(error);

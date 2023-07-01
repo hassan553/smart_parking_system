@@ -1,38 +1,31 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:spark/features/home/controller/timer_controller.dart';
+import 'package:spark/features/home/data/model/place_model.dart';
+import 'dart:async';
 import 'package:spark/features/widgets/background_widget.dart';
+import 'package:spark/features/widgets/custom_button.dart';
 
 import '../../../core/functions/globle_functions.dart';
 import '../../../core/resources/app_colors.dart';
 import '../../widgets/custom_text.dart';
+import '../widgets/home/book_button.dart';
 
 class TimerView extends StatefulWidget {
-  const TimerView({super.key});
+  final PlaceModel placeModel;
+  const TimerView({super.key, required this.placeModel});
 
   @override
   State<TimerView> createState() => _TimerViewState();
 }
 
-class _TimerViewState extends State<TimerView>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2))
-          ..repeat();
-    _animation =
-        CurvedAnimation(parent: _animationController, curve: Curves.linear);
-  }
-
+class _TimerViewState extends State<TimerView> {
+  TimerController controller = Get.find();
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _animationController.dispose();
+    controller.timer.cancel();
   }
 
   @override
@@ -86,7 +79,7 @@ class _TimerViewState extends State<TimerView>
                       alignment: Alignment.center,
                       child: CustomTextWidget(
                         color: Colors.black,
-                        text: 'Your place is P-02',
+                        text: widget.placeModel.title,
                         fontSize: 20,
                       ),
                     ),
@@ -95,16 +88,13 @@ class _TimerViewState extends State<TimerView>
                     height: 30,
                   ),
                   Center(
-                    child: RotationTransition(
-                      turns: _animation,
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.white,
-                        radius: 80,
-                        child: Center(
-                          child: Image.asset(
-                            'assets/images/car.PNG',
-                            fit: BoxFit.fill,
-                          ),
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.white,
+                      radius: 80,
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/car.PNG',
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),
@@ -113,17 +103,27 @@ class _TimerViewState extends State<TimerView>
                     height: 30,
                   ),
                   Center(
-                    child: CustomTextWidget(
-                      color: Colors.white,
-                      text: '44 M : 22 S',
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+                    child: GetBuilder<TimerController>(
+                      builder: (controller) => CustomTextWidget(
+                        color: Colors.white,
+                        text: '${controller.hours} M : ${controller.minutes} S',
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  //  const  BookButton(),
+                  SizedBox(
+                    height: screenSize(context).height * .1,
+                  ),
+                  CustomButton(
+                    function: () {
+                      controller.cancelsTimer();
+                    },
+                    text: 'Finish',
+                  ),
                 ],
               ),
             ),

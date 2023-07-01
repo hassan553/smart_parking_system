@@ -1,6 +1,8 @@
+import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:spark/features/home/controller/home_controller.dart';
+import 'package:spark/features/home/controller/timer_controller.dart';
 import 'package:spark/features/setting/controller/setting_controller.dart';
 
 import '../../features/auth/controller/login_controller.dart';
@@ -9,9 +11,10 @@ import '../../features/auth/controller/register_controller.dart';
 class Binding extends Bindings {
   @override
   void dependencies() {
-    Get.put(() => HomeController(), permanent: true);
+    Get.lazyPut(() => HomeController());
+    Get.lazyPut(() => TimerController());
     Get.lazyPut(() => SettingController());
-    Get.lazyPut(() => LoginController()); 
+    Get.lazyPut(() => LoginController());
     Get.lazyPut(() => RegisterController());
   }
 }

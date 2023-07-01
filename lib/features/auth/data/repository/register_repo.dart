@@ -6,7 +6,7 @@ import '../../../../core/constants/firebase_constants.dart';
 import '../model/user_model.dart';
 
 abstract class RegisterRepository {
-  Future<Either<String, UserCredential>> register(
+  Future<Either<String, String>> register(
       {required String email, required String password, required String name});
 
   Future<Either<String, String>> createCarInfo(
@@ -22,11 +22,8 @@ class RegisterRepositoryImpl extends RegisterRepository {
       required String number,
       required String color}) async {
     try {
-      firebaseFirestore
-          .collection('users')
-          .doc(user!.uid)
-          .collection('cars')
-          .add({'carName': model, 'carNumber': number, 'carColor': color});
+      CarModel carModel = CarModel(color: color, number: number, model: model);
+      firebaseFirestore.collection('cars').doc(user).set(carModel.toMap());
       return right('Successfully Saved  car information');
     } catch (error) {
       print('carr ${error.toString()}');
@@ -35,7 +32,7 @@ class RegisterRepositoryImpl extends RegisterRepository {
   }
 
   @override
-  Future<Either<String, UserCredential>> register({
+  Future<Either<String, String>> register({
     required String email,
     required String password,
     required String name,
@@ -51,12 +48,10 @@ class RegisterRepositoryImpl extends RegisterRepository {
 
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(auth.currentUser!.uid)
+          .doc(user)
           .set(userModel.toMap())
-          .then((value) {
-        
-      });
-      return right(result);
+          .then((value) {});
+      return right(result.user!.uid);
     } catch (error) {
       return left('Oops an Error.Try again');
     }
@@ -64,14 +59,14 @@ class RegisterRepositoryImpl extends RegisterRepository {
 
   @override
   bool checkIsEmailVerified() {
-    return user != null && user!.emailVerified;
+    return true;
   }
 
   @override
   Future<Either<String, String>> sendVerificationEmail() async {
     try {
       if (user != null) {
-        await user?.sendEmailVerification();
+        // await user?.sendEmailVerification();
       }
       return right('we send an email verification to your email');
     } catch (error) {

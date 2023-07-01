@@ -107,6 +107,7 @@ class CarInfoView extends StatelessWidget {
                         model: controller.carModel.text,
                         number: controller.carNumber.text,
                         color: controller.carColor.text);
+                        FocusScope.of(context).unfocus();
                   },
                   text: 'homeText37'.tr,
                 ),
